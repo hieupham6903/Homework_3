@@ -3,10 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  background: #f2f2f2;
+  background: var(--list-item-bg);
   list-style: none;
   transition: background-color 0.2s;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--list-item-border-color);
+  margin: 10px 0;
 }
 
 .todo-item:last-child {
@@ -28,13 +29,13 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #8b5cf6;
+  accent-color: var(--checkbox-color);
   margin-left: 15px;
   flex-shrink: 0;
 }
 
 .todo-text {
-  color: #0e0e0e;
+  color: var(--todo-text-color);
   font-weight: normal;
   font-size: 14px;
   font-family: system-ui, -apple-system, sans-serif;
@@ -45,19 +46,42 @@
 
 .todo-text.completed {
   text-decoration: line-through;
-  color: #999;
+  color: var(--todo-completed-color);
+}
+
+.todo-priority {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #ffffff;
+  background-color: var(--clear-btn-bg);
+  flex-shrink: 0;
+}
+
+.todo-priority.priority-low {
+  background-color: #10b981;
+}
+
+.todo-priority.priority-medium {
+  background-color: #f59e0b;
+}
+
+.todo-priority.priority-high {
+  background-color: #ef4444;
 }
 
 .todo-edit-input {
   flex: 1;
   padding: 6px 10px;
-  border: 2px solid #8b5cf6;
+  border: 2px solid var(--filter-border-color);
   border-radius: 6px;
   font-size: 14px;
   font-family: system-ui, -apple-system, sans-serif;
   outline: none;
-  background: white;
-  color: #0e0e0e;
+  background: var(--input-bg);
+  color: var(--input-text-color);
 }
 
 .todo-actions {
@@ -69,7 +93,7 @@
 .edit-btn {
   width: 32px;
   height: 32px;
-  background-color: #3b82f6;
+  background-color: var(--edit-btn-bg);
   border: none;
   border-radius: 6px;
   display: flex;
@@ -82,17 +106,17 @@
 }
 
 .edit-btn:hover {
-  background-color: #2563eb;
+  background-color: var(--edit-btn-hover-bg);
 }
 
 .edit-btn:active {
-  background-color: #1d4ed8;
+  background-color: var(--edit-btn-active-bg);
 }
 
 .delete-btn {
   width: 32px;
   height: 32px;
-  background-color: #ef4444;
+  background-color: var(--delete-btn-bg);
   border: none;
   border-radius: 6px;
   display: flex;
@@ -106,9 +130,9 @@
 }
 
 .delete-btn:hover {
-  background-color: #dc2626;
+  background-color: var(--delete-btn-hover-bg);
 }
 
 .delete-btn:active {
-  background-color: #b91c1c;
+  background-color: var(--delete-btn-active-bg);
 }

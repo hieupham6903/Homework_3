@@ -1,8 +1,13 @@
-import TodoList from "./components/TodoList";
-import "./App.css";
+import "./styles/App.css";
+import TodoPage from "./pages/TodoPage";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
-  return <TodoList />;
+  return (
+    <ThemeProvider>
+      <TodoPage />
+    </ThemeProvider>
+  );
 }
 
 export default App;

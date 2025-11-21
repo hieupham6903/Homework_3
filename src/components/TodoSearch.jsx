@@ -1,15 +1,8 @@
-import { useState } from "react";
-import "./TodoInput.css";
+import "../styles/TodoSearch.css";
 
-function TodoInput({ onAddTodo }) {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      onAddTodo(inputValue.trim());
-      setInputValue("");
-    }
+function TodoSearch({ searchValue, onSearchChange, onOpenModal }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -17,11 +10,11 @@ function TodoInput({ onAddTodo }) {
       <input
         type="text"
         className="todo-input"
-        placeholder="Add your new todo"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Search tasks"
+        value={searchValue}
+        onChange={(e) => onSearchChange(e.target.value)}
       />
-      <button className="add-btn" type="submit">
+      <button className="add-btn" type="button" onClick={onOpenModal}>
         <svg
           width="20"
           height="20"
@@ -41,4 +34,4 @@ function TodoInput({ onAddTodo }) {
   );
 }
 
-export default TodoInput;
+export default TodoSearch;

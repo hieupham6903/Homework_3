@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import "./TodoItem.css";
+import "../styles/TodoItem.css";
 
 function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(todo.text);
+  const [editText, setEditText] = useState(todo.title);
+  const normalizedPriority = (todo.priority ?? "medium").toLowerCase();
 
   useEffect(() => {
     if (!isEditing) {
-      setEditText(todo.text);
+      setEditText(todo.title);
     }
-  }, [todo.text, isEditing]);
+  }, [todo.title, isEditing]);
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditText(todo.text);
+    setEditText(todo.title);
   };
 
   const handleSave = () => {
@@ -24,7 +25,7 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
   };
 
   const handleCancel = () => {
-    setEditText(todo.text);
+    setEditText(todo.title);
     setIsEditing(false);
   };
 
@@ -62,8 +63,13 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
             htmlFor={`todo-${todo.id}`}
             className={`todo-text ${todo.completed ? "completed" : ""}`}
           >
-            {todo.text}
+            {todo.title}
           </label>
+        )}
+        {!isEditing && (
+          <span className={`todo-priority priority-${normalizedPriority}`}>
+            {normalizedPriority}
+          </span>
         )}
       </div>
       <div className="todo-actions">
