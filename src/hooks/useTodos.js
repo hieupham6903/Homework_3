@@ -46,6 +46,26 @@ export default function useTodos() {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
+  const reorderTodos = (sourceId, targetId) => {
+    if (!sourceId || !targetId || sourceId === targetId) {
+      return;
+    }
+
+    setTodos((prev) => {
+      const sourceIndex = prev.findIndex((todo) => todo.id === sourceId);
+      const targetIndex = prev.findIndex((todo) => todo.id === targetId);
+
+      if (sourceIndex === -1 || targetIndex === -1) {
+        return prev;
+      }
+
+      const updated = [...prev];
+      const [movedTodo] = updated.splice(sourceIndex, 1);
+      updated.splice(targetIndex, 0, movedTodo);
+      return updated;
+    });
+  };
+
   const clearAll = () => {
     setTodos([]);
   };
@@ -74,6 +94,7 @@ export default function useTodos() {
     toggleTodo,
     updateTodo,
     deleteTodo,
+    reorderTodos,
     clearAll,
     hasTodos: todos.length > 0,
     stats,

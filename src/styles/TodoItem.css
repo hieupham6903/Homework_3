@@ -5,9 +5,26 @@
   padding: 12px 0;
   background: var(--list-item-bg);
   list-style: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, opacity 0.2s;
   border-bottom: 1px solid var(--list-item-border-color);
   margin: 10px 0;
+  cursor: grab;
+}
+
+.todo-item:active {
+  cursor: grabbing;
+}
+
+.todo-item.dragging {
+  opacity: 0.6;
+  cursor: grabbing;
+}
+
+.todo-item.drag-over {
+  background-color: var(--filter-hover-bg);
+  outline: 2px dashed var(--filter-active-bg);
+  outline-offset: -2px;
+  border-radius: 8px;
 }
 
 .todo-item:last-child {

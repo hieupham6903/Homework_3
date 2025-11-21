@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import "../styles/TodoItem.css";
 
-function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
+function TodoItem({
+  todo,
+  onToggle,
+  onUpdate,
+  onDelete,
+  onDragStart,
+  onDragEnd,
+  onDrop,
+  isDragging,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.title);
+  const [isDragOver, setIsDragOver] = useState(false);
   const normalizedPriority = (todo.priority ?? "medium").toLowerCase();
 
   useEffect(() => {
@@ -11,6 +21,58 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
       setEditText(todo.title);
     }
   }, [todo.title, isEditing]);
+
+  const itemClasses = [
+    "todo-item",
+    isDragging ? "dragging" : "",
+    isDragOver ? "drag-over" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const handleDragStart = (event) => {
+    if (isEditing) {
+      event.preventDefault();
+      return;
+    }
+    event.dataTransfer?.setData("text/plain", todo.id);
+    event.dataTransfer.effectAllowed = "move";
+    onDragStart?.();
+  };
+
+  const handleDragEnd = () => {
+    setIsDragOver(false);
+    onDragEnd?.();
+  };
+
+  const handleDragOver = (event) => {
+    if (isEditing || isDragging) {
+      return;
+    }
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDragEnter = (event) => {
+    if (isEditing || isDragging) {
+      return;
+    }
+    event.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (event) => {
+    if (isEditing) {
+      return;
+    }
+    event.preventDefault();
+    setIsDragOver(false);
+    onDrop?.();
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -38,7 +100,16 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
   };
 
   return (
-    <li className="todo-item">
+    <li
+      className={itemClasses}
+      draggable={!isEditing}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <div className="todo-content">
         <input
           type="checkbox"

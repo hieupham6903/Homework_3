@@ -24,6 +24,7 @@ function TodoPage() {
     toggleTodo,
     updateTodo,
     deleteTodo,
+    reorderTodos,
     clearAll,
     hasTodos,
     searchTerm,
@@ -32,9 +33,25 @@ function TodoPage() {
   } = useTodos();
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [draggingId, setDraggingId] = useState(null);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleDragStart = (todoId) => {
+    setDraggingId(todoId);
+  };
+
+  const handleDragEnd = () => {
+    setDraggingId(null);
+  };
+
+  const handleDropOnItem = (targetId) => {
+    if (draggingId && draggingId !== targetId) {
+      reorderTodos(draggingId, targetId);
+    }
+    setDraggingId(null);
+  };
 
   return (
     <div className="todo-app-container">
@@ -119,6 +136,10 @@ function TodoPage() {
                 onToggle={toggleTodo}
                 onUpdate={updateTodo}
                 onDelete={deleteTodo}
+                onDragStart={() => handleDragStart(todo.id)}
+                onDragEnd={handleDragEnd}
+                onDrop={() => handleDropOnItem(todo.id)}
+                isDragging={draggingId === todo.id}
               />
             ))}
           </ul>
